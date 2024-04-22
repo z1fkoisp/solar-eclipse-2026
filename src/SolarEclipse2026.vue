@@ -211,13 +211,12 @@
             id="map-container" :data-before-text="eclipsePredictionText">
             
             <div 
-              v-if="learnerPath === 'Location' && showEclipsePredictionTextBanner && !mobile && !showNewMobileUI" 
+              v-if="learnerPath === 'Location' && showEclipsePredictionTextBanner" 
               id="map-banner" 
               class="show-after"
               >
-              <span v-if="showEclipsePredictionText">
+              <span style="font-size: 0.75em" v-if="showEclipsePredictionText">
                 {{ eclipsePredictionText }}
-                <v-icon v-if="narrow" style="padding: 2px; border-radius:3px; background-color:#ddd;" class="elevation-2" @click="showEclipsePredictionSheet = true; showEclipsePredictionText = true">mdi-sun-clock</v-icon> 
               </span>
               <span v-else>
                 {{ touchscreen ? "Tap" : "Click" }} <v-icon style="padding: 2px; border-radius:3px; background-color:#ddd;" class="elevation-2" @click="showEclipsePredictionSheet = true; showEclipsePredictionText = true">mdi-sun-clock</v-icon> to see eclipse predictions
@@ -274,7 +273,7 @@
               @activate="() => {
                 showEclipsePredictionSheet = true;
                 if (!showEclipsePredictionText) {
-                  showEclipsePredictionTextBanner = !showNewMobileUI;
+                  showEclipsePredictionTextBanner = true;
                 }
                 showEclipsePredictionText = true;
               }"
@@ -752,7 +751,7 @@
     </v-dialog>
 
   
-  <div v-show="!showGuidedContent && showEclipsePredictionTextBanner && !showNewMobileUI" class="user-banner">
+  <div v-show="!showGuidedContent && showEclipsePredictionTextBanner" class="user-banner">
     <span class="banner-text" v-if="showEclipsePredictionText">
       {{ eclipsePredictionText }}
     </span>
@@ -924,7 +923,6 @@
               hide-details
             />    
             <v-checkbox
-              v-show="!showNewMobileUI"
               :color="accentColor"
               v-model="showEclipsePredictionTextBanner"
               @keyup.enter="showEclipsePredictionTextBanner = !showEclipsePredictionTextBanner"
@@ -1305,7 +1303,7 @@
         @activate="() => {
           showEclipsePredictionSheet = true;
           if (!showEclipsePredictionText) {
-            showEclipsePredictionTextBanner = !showNewMobileUI;
+            showEclipsePredictionTextBanner = true;
           }
           showEclipsePredictionText = true;
         }"
@@ -1968,7 +1966,7 @@ export default defineComponent({
       showAWVFullScreen: false,
       
       showEclipsePredictionSheet: false,
-      showEclipsePredictionText: false,
+      showEclipsePredictionText: true,
       showEclipsePredictionTextBanner: false,
       
       
@@ -2149,7 +2147,7 @@ export default defineComponent({
     
     
     if (!this.showSplashScreen) {
-      this.showEclipsePredictionTextBanner = this.showNewMobileUI;
+      this.showEclipsePredictionTextBanner = true;
     }
     
     this.searchOpen = this.smAndUp;
@@ -3975,7 +3973,7 @@ export default defineComponent({
     inIntro(value: boolean) {
       if (!value) {
         this.playing = true;
-        this.showEclipsePredictionTextBanner = !this.showNewMobileUI;
+        this.showEclipsePredictionTextBanner = true;
         if (!this.showSplashScreen && this.responseOptOut === null) {
           this.showPrivacyDialog = true;
         }
