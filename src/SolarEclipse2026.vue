@@ -415,14 +415,9 @@
                       <p>
                         Check out
                         <ul>
-                          <!-- <li><a href="https://science.nasa.gov/eclipses/future-eclipses/eclipse-2024/where-when/" target="_blank" rel="noopener noreferrer">NASA's website</a> about the April eclipse -->
-                          <!-- </li> -->
                           <li>
                             Infiniscope's Kingdom in Peril lessons on eclipses, available in <a href="https://infiniscope.org/collection/3" target="_blank" rel="noopener noreferrer">English</a> and <a href="https://infiniscope.org/collection/6" target="_blank" rel="noopener noreferrer">Spanish</a>
                           </li>
-                          <!-- <li>
-                            <a href="https://EclipseSoundscapes.org" target="_blank" rel="noopener noreferrer">Eclipse Soundscapes</a> citizen science project
-                          </li> -->
                           <li>
                             Fiske Planetarium's <a href="https://www.colorado.edu/fiske/projects/science-through-shadows" target="_blank" rel="noopener noreferrer">Science Through Shadows</a> videos
                           </li>
