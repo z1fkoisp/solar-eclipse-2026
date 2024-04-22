@@ -3713,8 +3713,11 @@ export default defineComponent({
 
     getCloudCover(lat: number, lon: number): number | null {
       // convert lat/lon to row/col
-      const row = Math.floor(maxLat - lat + 0.5);
-      const col = Math.floor(lon + 0.5 - minLon);
+      const d = this.rectangleDegrees;
+      console.log(d, maxLat, minLon, lat, lon);
+      const row = Math.round((maxLat - lat) / d);
+      const col = Math.round((lon - minLon) / d);
+      console.log(row, col);
       if (row < 0 || row >= cloudData.length || col < 0 || col >= cloudData[0].length) {
         return null;
       }
