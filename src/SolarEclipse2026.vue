@@ -128,8 +128,8 @@
               <span class="description">
                 <div class=".d-flex">
                   <div>
-                    This map shows historical cloud cover data for the week of April 8 for the years 2003&#8211;2023 from <a href="https://modis.gsfc.nasa.gov/" target="_blank" rel="noopener noreferrer">MODIS</a> on NASA's Aqua satellite.
-                    {{ touchscreen ? "Tap" : "Click" }} the map to display the <define-term term="median" definition="For <strong>half</strong> of the years from 2003–2023 on April 8, the cloud cover amount was <strong>less</strong> than the median value. For the other <strong>half</strong> of the years, the cloud cover was <strong>more</strong> than the median value."/> cloud coverage for a particular location (within about 100 km). Learn more in the <v-btn style="padding-inline:2px;" :class="[smallSize ? 'text-caption' : '']" :color="accentColor" density="compact"  @click="showAdvancedWeather = true">Cloud Data Explorer</v-btn>.
+                    This map shows historical cloud cover data for the week of August 12 for the years 2003&#8211;2023 from <a href="https://modis.gsfc.nasa.gov/" target="_blank" rel="noopener noreferrer">MODIS</a> on NASA's Aqua satellite.
+                    {{ touchscreen ? "Tap" : "Click" }} the map to display the <define-term term="median" definition="For <strong>half</strong> of the years from 2003–2023 on August 12, the cloud cover amount was <strong>less</strong> than the median value. For the other <strong>half</strong> of the years, the cloud cover was <strong>more</strong> than the median value."/> cloud coverage for a particular location (within about 100 km). 
                   </div>
                   <div>
                     <cloud-cover
@@ -138,21 +138,6 @@
                     />
                   </div>
                   
-                </div>
-              </span>
-            </div>
-            
-            <!-- Detailed Cloud Path -->
-            <div class="instructions-text" v-if="learnerPath=='CloudDetail'">
-              <span class="description">
-                <div class=".d-flex">
-                  <div>
-                    <p>View different statistics for the data beyond just the 20-year median shown here.</p>
-                    <p> Explore whether phenomena like El Niño historically impacted cloud cover patterns.</p>
-                  </div>
-                  <div>
-                    <div class="my-2">Open the <v-btn :class="[smallSize ? 'text-caption' : '']" :color="accentColor" density="compact"  @click="showAdvancedWeather = true">Cloud Data Explorer</v-btn></div>
-                  </div>
                 </div>
               </span>
             </div>
@@ -188,19 +173,7 @@
                 :box-shadow="false"
                 @activate="() => { learnerPath = 'Clouds'}"
               ></icon-button>
-              <icon-button
-                v-if="!showNewMobileUI"
-                :model-value="learnerPath == 'CloudDetail'"
-                fa-icon="chart-column"
-                fa-size="xl"
-                :color="accentColor"
-                :focus-color="accentColor"
-                :tooltip-text="'Explore detailed historical cloud coverage'"
-                :tooltip-location="'bottom'"
-                :show-tooltip="!mobile"
-                :box-shadow="false"
-                @activate="() => { learnerPath = 'CloudDetail'}"
-              ></icon-button>
+              
               <icon-button
                 v-model="showInfoSheet"
                 fa-icon="book-open"
@@ -319,7 +292,8 @@
               class="leaflet-map"
               :geo-json-files="geojson"
               :selected-cloud-cover="selectedCloudCoverData"
-              :cloud-cover-opacity-function="sigmoid"
+              :cloud-cover-opacity-function="(v: number) => v"
+              :rectangle-degrees="rectangleDegrees"
             ></location-selector>
               <color-bar
                 v-if="learnerPath === 'Clouds'"
@@ -386,10 +360,10 @@
 
                   <div id="main-info-text">
                     <p>
-                    On April 8, 2024, North America will be treated to an awe-inspiring total eclipse. 
+                    On August 12, 2026, Europe will be treated to an awe-inspiring total eclipse. 
                     </p>
                     <p>
-                    This interactive lets you explore the April total eclipse from different locations. 
+                    This interactive lets you explore the August total eclipse from different locations. 
                     </p>
                     <p id="safety-warning">
                       SAFETY FIRST: NEVER look directly at the Sun without proper eye protection.
@@ -401,7 +375,7 @@
                         What causes Solar Eclipses?
                       </summary>
                       <p>
-                        A solar eclipse happens when the Moon passes between the Earth and the Sun and blocks the Sun from our view. Partial eclipses occur about every 6 months, somewhere on the Earth. In 2023 and 2024, the US has been lucky to be in the path of two solar eclipses.
+                        A solar eclipse happens when the Moon passes between the Earth and the Sun and blocks the Sun from our view. Partial eclipses occur about every 6 months, somewhere on the Earth. 
                       </p>
                     </details>
                     
@@ -441,14 +415,14 @@
                       <p>
                         Check out
                         <ul>
-                          <li><a href="https://science.nasa.gov/eclipses/future-eclipses/eclipse-2024/where-when/" target="_blank" rel="noopener noreferrer">NASA's website</a> about the April eclipse
-                          </li>
+                          <!-- <li><a href="https://science.nasa.gov/eclipses/future-eclipses/eclipse-2024/where-when/" target="_blank" rel="noopener noreferrer">NASA's website</a> about the April eclipse -->
+                          <!-- </li> -->
                           <li>
                             Infiniscope's Kingdom in Peril lessons on eclipses, available in <a href="https://infiniscope.org/collection/3" target="_blank" rel="noopener noreferrer">English</a> and <a href="https://infiniscope.org/collection/6" target="_blank" rel="noopener noreferrer">Spanish</a>
                           </li>
-                          <li>
+                          <!-- <li>
                             <a href="https://EclipseSoundscapes.org" target="_blank" rel="noopener noreferrer">Eclipse Soundscapes</a> citizen science project
-                          </li>
+                          </li> -->
                           <li>
                             Fiske Planetarium's <a href="https://www.colorado.edu/fiske/projects/science-through-shadows" target="_blank" rel="noopener noreferrer">Science Through Shadows</a> videos
                           </li>
@@ -492,7 +466,7 @@
           <v-card-text class="info-text no-bottom-border-radius">
             <v-container  id="user-guide">
               <p style="font-size: calc(1.1 * var(--default-font-size))" class="mb-5">
-                This Cosmic Data Story allows you to display the April 8, 2024 Total Solar Eclipse from any location. 
+                This Cosmic Data Story allows you to display the August 12, 2026 Total Solar Eclipse from any location. 
               </p>
               <v-row align="center">
               <v-col cols="4">
@@ -632,7 +606,7 @@
                           font-weight: bold ">Eclipsed:
                         </span> The fraction of the Sun that is eclipsed in the currenty view (for the selected time and location).
                       </li>
-                      <li v-if="!showNewMobileUI" class="switch-bullets">
+                      <li class="switch-bullets">
                         <v-switch
                           class="display-only-switch"
                           v-model="displaySwitchOn"
@@ -646,7 +620,7 @@
                         </v-switch>
                         <span class="user-guide-emphasis"> Track Sun:</span> Camera follows the Sun.
                       </li>
-                      <li v-if="!showNewMobileUI" class="switch-bullets mb-5">
+                      <li class="switch-bullets mb-5">
                         <v-switch
                           class="display-only-switch"
                           v-model="displaySwitchOff"
@@ -682,31 +656,6 @@
                           icon="mdi-sun-clock"
                           size="large">
                         </v-icon> to display detailed <span class="user-guide-emphasis-white">eclipse timing</span> predictions for your selected location.
-                      </li>
-                      <li v-if="!showNewMobileUI">
-                        <span class="user-guide-emphasis-white">Center Sun:</span> Recenter view on Sun.
-                      </li>
-                      <li v-if="!showNewMobileUI">
-                        <span class="user-guide-emphasis-white">Sky Grid:</span> Display altitude/azimuth grid with cardinal directions.
-                      </li>
-                      <li v-if="!showNewMobileUI">
-                        <span class="user-guide-emphasis-white">Horizon/Daytime Sky:</span> Display a virtual "ground" that delineates where the Sun rises and sets. Show a blue sky when the Sun is above the horizon.                     
-                      </li>
-                      <li v-if="!showNewMobileUI">
-                        <span class="user-guide-emphasis-white">Visible Moon:</span> Solar Eclipses occur during a New Moon, when the Moon is not normally visible in the sky. This option makes it easier to see the Moon against the sky.                     
-                      </li>
-                      <li v-if="!showNewMobileUI">
-                        <span class="user-guide-emphasis-white">Eclipse Timing:</span> Display eclipse start time for your selected location. If applicable, display duration of totality. (This appears at the top of the map if it is open, and at the top of the screen if the map is closed.)                   
-                      </li>
-                      <li v-if="narrow && !showNewMobileUI">
-                        <span class="user-guide-emphasis-white">Detailed Interface:</span> Switch to original mobile interface. (Uncheck box to use new streamlined interface)                               
-                      </li>
-                      <li v-if="!showNewMobileUI"  class="mt-2">
-                        <span 
-                          style="color: blue; background-color: white;
-                          padding-inline: 0.7em;
-                          border-radius: 20px;
-                          font-weight: bold ">Eclipsed:</span> The fraction of the Sun that is eclipsed in the currenty view (for the selected time and location).
                       </li>
                     </ul>
                           
@@ -746,6 +695,9 @@
                         ></font-awesome-icon> to access more options:
                     </p>     
                     <ul>
+                      <li v-if="showNewMobileUI">
+                        <span class="user-guide-emphasis-white">Center Sun:</span> Recenter view on Sun.
+                      </li>
                       <li v-if="showNewMobileUI">
                         <span class="user-guide-emphasis-white">Sky Grid:</span> Display altitude/azimuth grid with cardinal directions.
                       </li>
@@ -948,7 +900,6 @@
 
           <div v-if="showControls" id="control-checkboxes">
             <v-checkbox
-              v-if="!showNewMobileUI"
               :color="accentColor"
               v-model="sunCenteredTracking"
               @change="centerSun()"
@@ -1056,7 +1007,7 @@
             >&times;</div>
           <div id="splash-screen-text">
             <p>See how the </p>
-            <p class="highlight">April 8th</p> 
+            <p class="highlight">August 12, 2026</p> 
             <p class="highlight">TOTAL Solar Eclipse</p>
             <p>will look from any 
             <span class="highlight">location</span>
@@ -1119,7 +1070,7 @@
 
   <!-- Opening Dialog Sequence -->
     <v-overlay
-      v-if="showNewMobileUI"
+      v-if="narrow"
       v-model="inIntro"
       opacity="1"
       :scrim="false"
@@ -1157,7 +1108,7 @@
         <div class="inst-quad bottom-right">
           <div class="inst-arrow"><v-icon  class="the-arrow" :color="accentColor" :size="Math.min($vuetify.display.width*0.16,$vuetify.display.height*0.16)">mdi-arrow-up-bold</v-icon></div>
           <div class="inst-text">
-            Tell me what will happen and when, + new! April 8 weather
+            Tell me what will happen and when
           </div>
         </div>
         <!-- <div id="instructions-close-button">
@@ -1173,7 +1124,7 @@
     </v-overlay>
 
     <v-dialog
-      v-if="!showNewMobileUI"
+      v-if="!narrow"
       v-model="inIntro"
       :style="cssVars"
       :scrim="false"
@@ -1195,20 +1146,7 @@
             /> 
           </div>
           </template>
-          <v-window-item :value="1">
-            <div class="intro-text">
-              <p class="mb-5">
-              On April 8, 2024, North America will experience
-              a solar eclipse, where the Moon will appear to travel across the Sun, blocking out its light.
-              </p>
-              <p  class="mb-5">
-              A lucky segment of Mexico, the U.S., and Canada will witness an awe-inspiring <b>total eclipse</b>. Other parts of North America will still see a <em>partial</em> eclipse, where the Moon blocks out some, but not all of the Sun's light.
-              </p>
-              <p class="mb-5">
-              See what the eclipse will look like where you are, and what the historical cloud coverage has been during the week of April 8th from 2003&#8211;2023.
-              </p>
-            </div>
-          </v-window-item>
+          
           
           <v-window-item :value="2">
             <div class="intro-text mb-3">
@@ -1234,12 +1172,6 @@
                   </template>
                     <strong>View historical cloud data</strong> for the week of April 8th from 2003&#8211;2023. 
                 </v-list-item>
-                <v-list-item v-if="!showNewMobileUI" density="compact">
-                  <template v-slot:prepend>
-                    <font-awesome-icon icon="chart-column" size="xl" class="bullet-icon"></font-awesome-icon>
-                  </template>
-                  <strong>Explore historical cloud data</strong> as individual years or filter by El Niño/La Niña climate patterns.
-                </v-list-item>
                 <v-list-item density="compact">
                   <template v-slot:prepend>
                     <font-awesome-icon icon="book-open" size="xl" class="bullet-icon"></font-awesome-icon>
@@ -1256,21 +1188,10 @@
             </div>
           </v-window-item>
         </v-window>
+      
 
         <div id="intro-bottom-controls">
           <div>
-            <v-btn
-              v-if="(introSlide > 1) && (!showNewMobileUI)"
-              id="intro-next-button"
-              :color="accentColor"
-              @click="introSlide--"
-              @keyup.enter="introSlide--"
-              elevation="0"
-              >
-              Back
-            </v-btn>
-          </div>
-          
           <v-btn
             id="intro-next-button"
             :color="accentColor"
@@ -1278,9 +1199,10 @@
             @keyup.enter="introSlide++"
             elevation="0"
             >
-            {{ introSlide < 2 ? 'Next' : 'Get Started' }}
+            Get Started
           </v-btn>
         </div>
+      </div>
       </div>
     </v-dialog>
     
@@ -1315,7 +1237,7 @@
           :text="percentEclipsedText"
         > </v-chip>
       </div>
-      <div id="top-switches" v-if="!showNewMobileUI">
+      <div id="top-switches">
         <div id="track-sun-switch"> 
           <hover-tooltip
               location="left"
@@ -1342,26 +1264,6 @@
     </div>
     
     <div class="bottom-content">
-      
-      <v-dialog
-        v-model="showForecastSheet"
-        :max-width="xSmallSize ? '85%' : '45%'"
-        transition="slide-y-transition"
-        id="weather-forecast-sheet"
-        >
-      <v-card>
-          <v-card-text class="pb-8">
-            <font-awesome-icon
-                style="position:absolute;right:12px;cursor:pointer;padding:1em;margin:-1em"
-                icon="square-xmark"
-                size="xl"
-                @click="showForecastSheet = false"
-                @keyup.enter="showForecastSheet = false"
-                tabindex="0"
-              ></font-awesome-icon>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
      
       <v-dialog
         v-model="showEclipsePredictionSheet"
@@ -1415,84 +1317,7 @@
         >
       </icon-button>
 
-      <icon-button
-        v-model="showForecastSheet"
-        md-icon="mdi-cloud-clock"
-        :md-size="showNewMobileUI ? '16' : '24'"
-        :color="accentColor"
-        :focus-color="accentColor"
-        :tooltip-text="showForecastSheet ? null : 'April 8 Weather Forecast'"
-        :tooltip-location="'left'"
-        :show-tooltip="!mobile"
-        :box-shadow="false"
-      ></icon-button>
-            
-      <div
-        id="controls"
-        class="control-icon-wrapper"
-        v-if="!showNewMobileUI"
-      >
-        <div id="controls-top-row">
-          <font-awesome-icon
-            size="lg"
-            :color="accentColor"
-            :icon="showControls ? `chevron-down` : `gear`"
-            @click="showControls = !showControls"
-            @keyup.enter="showControls = !showControls"
-            tabindex="0"
-          /> 
-        </div>
 
-          <div v-if="showControls" id="control-checkboxes">
-            <v-checkbox
-              v-if="!showNewMobileUI"
-              :color="accentColor"
-              v-model="sunCenteredTracking"
-              @change="centerSun()"
-              label="Center Sun"
-              :disabled="sunCenteredTracking"
-              hide-details 
-            />
-            <v-checkbox
-              :color="accentColor"
-              v-model="showAltAzGrid"
-              @keyup.enter="showAltAzGrid = !showAltAzGrid"
-              label="Sky Grid"
-              hide-details 
-            />
-            <v-checkbox
-              :color="accentColor"
-              v-model="showHorizon"
-              @keyup.enter="showHorizon = !showHorizon"
-              label="Horizon/Daytime Sky"
-              hide-details
-            />
-            <v-checkbox
-                :color="accentColor"
-                v-model="useRegularMoon"
-                @keyup.enter="useRegularMoon = !useRegularMoon"
-                label="Visible Moon"
-                hide-details
-            />    
-            <v-checkbox
-              v-show="!showNewMobileUI"
-              :color="accentColor"
-              v-model="showEclipsePredictionTextBanner"
-              @keyup.enter="showEclipsePredictionTextBanner = !showEclipsePredictionTextBanner"
-              label="Eclipse Timing"
-              hide-details 
-            />  
-            <v-checkbox
-              v-show="narrow"
-              :color="accentColor"
-              v-model="showOldMobileUI"
-              @keyup.enter="showOldMobileUI = !showOldMobileUI"
-              label="Detailed Interface"
-              hide-details
-            ></v-checkbox>            
-          </div>
-
-      </div>
       
       <div id="eclipse-percent-chip">
         <v-btn
@@ -1509,13 +1334,6 @@
         >
           Now
         </v-btn>
-        <v-chip 
-          v-if="!showNewMobileUI"
-          :prepend-icon="smallSize ? `` : `mdi-sun-angle`"
-          variant="outlined"
-          elevation="1"
-          :text="percentEclipsedText"
-        > </v-chip>
       </div>
       
       <div id="video-icon">
@@ -1871,7 +1689,8 @@ console.log("Eclipse finish time", new Date(eclipseFinishTime));
 const extraTime = 1000 * 60 * 60 * 0; // add 2 hours to the end time to make sure we get the full eclipse
 const minTime = eclipseStartTime - extraTime;
 const maxTime = eclipseFinishTime + extraTime;
-
+console.log("Min time", new Date(minTime).toISOString());
+console.log("Max time", new Date(maxTime).toISOString());
 const SECONDS_PER_DAY = 60 * 60 * 24;
 const MILLISECONDS_PER_DAY = 1000 * SECONDS_PER_DAY;
 
@@ -2016,11 +1835,11 @@ cloudData = cloudData.slice(1).map(row => row.slice(1));
 // conver cloudData from array to CloudData[] for locationselector
 const cloudDataArray: CloudData[] = [];
 cloudData.forEach((row, i) => {
-  row.forEach((cloudCover, j) => {
+  row.forEach((cc, j) => {
     cloudDataArray.push({
       lat: maxLat + dLat * i,
       lon: minLon + dLon * j,
-      cloudCover
+      cloudCover: cc
     });
   });
 });
@@ -2054,7 +1873,7 @@ export default defineComponent({
     },
   },
   data() {
-    const totalEclipseTimeUTC = new Date("2024-08-12T20:30:59Z");
+    const totalEclipseTimeUTC = new Date("2026-08-12T20:30:59Z");
 
     const sunPlace = new Place();
     sunPlace.set_names(["Sun"]);
@@ -2100,11 +1919,12 @@ export default defineComponent({
       { latitudeRad: D2R * 41.05651083190793, longitudeRad: D2R * -2.3823344069458017 };
     return {
       totalEclipseTimeUTC,
-      showNewMobileUI: false,
+      showNewMobileUI: true,
       showForecastSheet: false,
       
       selectedCloudCoverVariable: 'median', // Define selectedCloudCoverVariable
       cloudCoverData: cloudDataArray as CloudData[],
+      rectangleDegrees: Math.abs(dLat),
       
       uuid,
       infoTimeMs: 0,
@@ -2123,7 +1943,7 @@ export default defineComponent({
       weatherInfoOpen: false,
       responseOptOut: responseOptOut as boolean | null,
 
-      showSplashScreen: false,  //queryData.splash ?? true, 
+      showSplashScreen: queryData.splash ?? true, 
       backgroundImagesets: [] as BackgroundImageset[],
       sheet: null as SheetType,
       layersLoaded: false,
@@ -2281,7 +2101,7 @@ export default defineComponent({
           style: {fillColor: '#333', weight: 1, opacity: 0, fillOpacity: 0.3, id:"upath"}
         },
         {
-          url: 'https://raw.githubusercontent.com/johnarban/wwt_interactives/main/images/center_2026.json',
+          url: "https://raw.githubusercontent.com/johnarban/wwt_interactives/main/images/center_2026.json",
           style: {color: '#ff0000', weight: 2, opacity: 1, fillOpacity: 0}
         },
         // { // individual places
@@ -2332,10 +2152,9 @@ export default defineComponent({
       this.updateSelectedLocationText();
     }
     
-    this.showNewMobileUI = this.narrow;
     
     if (!this.showSplashScreen) {
-      this.showEclipsePredictionTextBanner = !this.showNewMobileUI;
+      this.showEclipsePredictionTextBanner = this.showNewMobileUI;
     }
     
     this.searchOpen = this.smAndUp;
@@ -2453,12 +2272,15 @@ export default defineComponent({
         }
       });
 
+    }).then(() => {
+      this.selectedTime = this.eclipseMid ?? this.totalEclipseTimeUTC.getTime();
+      this.setTime(new Date(this.selectedTime));
+      this.updateFrontAnnotations(new Date(this.selectedTime));
     });
 
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize);
       this.onResize();
-      this.selectedTime = this.totalEclipseTimeUTC.getTime();
     });
 
     this.showControls = !this.narrow;
@@ -2526,7 +2348,6 @@ export default defineComponent({
 
 
     dateTime() {
-      console.log("selectedTime", this.selectedTime);
       return new Date(this.selectedTime);
     },
 
@@ -2928,7 +2749,7 @@ export default defineComponent({
 
     cloudColorMap(v: number) {
       const cc = this.sigmoid(v);
-      return `hsl(0, 0%, 100%, ${.9 * cc*100}%)`;
+      return `hsl(0, 0%, 100%, ${0.9 * cc * 100}%)`;
     },
     
     sigmoid(val: number | null): number {
@@ -3379,7 +3200,7 @@ export default defineComponent({
       if (this.responseOptOut) {
         return;
       }
-      const response = await fetch(`${API_BASE_URL}/solar-eclipse-2024/data/${this.uuid}`, {
+      const response = await fetch(`${API_BASE_URL}/solar-eclipse-2026/data/${this.uuid}`, {
         method: "GET",
         // eslint-disable-next-line @typescript-eslint/naming-convention
         headers: { "Authorization": process.env.VUE_APP_CDS_API_KEY ?? "" }
@@ -3389,7 +3210,7 @@ export default defineComponent({
       if (exists) {
         return;
       }
-      fetch(`${API_BASE_URL}/solar-eclipse-2024/data`, {
+      fetch(`${API_BASE_URL}/solar-eclipse-2026/data`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -3448,7 +3269,7 @@ export default defineComponent({
       const weatherInfoTime = (this.weatherInfoOpen && this.weatherInfoStartTimestamp !== null) ? now - this.weatherInfoStartTimestamp : this.weatherInfoTimeMs;
       const eclipseTimerTime = (this.showEclipsePredictionSheet && this.eclipseTimerStartTimestamp !== null) ? now - this.eclipseTimerStartTimestamp : this.eclipseTimerTimeMs;
       const forecastInfoTime = (this.showForecastSheet && this.forecastInfoStartTimestamp !== null) ? now - this.forecastInfoStartTimestamp : this.forecastInfoTimeMs;
-      fetch(`${API_BASE_URL}/solar-eclipse-2024/data/${this.uuid}`, {
+      fetch(`${API_BASE_URL}/solar-eclipse-2026/data/${this.uuid}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -4853,11 +4674,7 @@ body {
   
 }
 
-#left-buttons-wrapper {
-  #controls {
-    align-self: flex-start;
-  }
-}
+
 
 #controls {
   background: black;
@@ -4868,11 +4685,13 @@ body {
   display: flex;
   flex-direction: column;
   pointer-events: auto;
+  align-self: flex-start;
 
   .v-label {
     color: var(--accent-color);
     opacity: 1;
     font-size: var(--default-font-size);
+    margin-left: 0.5em;
   }
 
   #control-checkboxes {

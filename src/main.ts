@@ -4,7 +4,7 @@ import { IconButton } from "@cosmicds/vue-toolkit";
 import LocationSelector from "./LocationSelector.vue";
 import { FundingAcknowledgment } from "@cosmicds/vue-toolkit";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import SolarEclipse2023 from "./SolarEclipse2024.vue";
+import SolarEclipse2026 from "./SolarEclipse2026.vue";
 import TransitionExpand from "./TransitionExpand.vue";
 import GifPlayPause from "./GifPlayPause.vue";
 import CreditLogos from "./CreditLogos.vue";
@@ -16,7 +16,6 @@ import DefineTerm from "./DefineTerm.vue";
 import PlaybackControl from "./PlaybackControl.vue";
 
 import ColorBar from "./ColorBar.vue";
-import CloudDataExplainer from "./CloudDataExplainer.vue";
 import EclipseTimer from "./EclipseTimer.vue";
 import LocationSearch from "./LocationSearch.vue";
 
@@ -112,7 +111,7 @@ library.add(faLocationCrosshairs);
 // Extract the function out, up here, so I'm not writing it twice
 const update = (el: HTMLElement, binding: Vue.DirectiveBinding) => el.style.visibility = (binding.value) ? "hidden" : "";
 
-createApp(SolarEclipse2023, {
+createApp(SolarEclipse2026, {
   wwtNamespace: "wwt-minids-solar-eclipse-2026",
   // wtml: { // use this just as a test for the sun
   //   eclipse: "https://raw.githubusercontent.com/patudom/star-life-cycle/master/content/BUACStellarLifeCycles.wtml",
@@ -158,7 +157,6 @@ createApp(SolarEclipse2023, {
   .component('define-term', DefineTerm)
   .component('playback-control', PlaybackControl)
   .component('color-bar', ColorBar)
-  .component('cloud-data-explainer', CloudDataExplainer)
   .component('eclipse-timer', EclipseTimer)
   .component('location-search', LocationSearch)
   // Mount

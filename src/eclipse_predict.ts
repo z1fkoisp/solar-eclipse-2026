@@ -50,8 +50,8 @@ TODO:
 
 
 import { EclipseForm, Observer, SunBSR,BSRArray, EclipseData, NoEclipseData, PartialEclipseData, TotalAnnularEclipseData } from "./eclipse_types";
-import { SE2024 } from "./SE2024";
-// export { EclipseForm, Observer, SunBSR,BSRArray, EclipseData, SE2024 };
+import { SE2026 } from "./SE2026";
+// export { EclipseForm, Observer, SunBSR,BSRArray, EclipseData, SE2026 };
 //
 // Observer constants -
 // (0) North Latitude (radians)
@@ -1116,7 +1116,7 @@ function calculatefor(el: number[]) {
 
 function recalculate() {
   readform();
-  const result = calculatefor(SE2024());
+  const result = calculatefor(SE2026());
 }
 
 const DEBUG = false;
@@ -1137,7 +1137,7 @@ export function recalculateForObserver(latDeg: number, latDir: 'N' | 'S', lonDeg
   const lonSign = eclipseform.lonx.options[lonDir];
   const tzSign = eclipseform.tzx.options[tzDir];
   setObserver(latSign * Math.abs(latDeg), lonSign * Math.abs(lonDeg), alt, tzSign * Math.abs(tz));
-  const result = calculatefor(SE2024());
+  const result = calculatefor(SE2026());
   return result;
 }
 
@@ -1187,6 +1187,6 @@ function convertEclipseDataList(value: EclipseData<string>[]): EclipseData<Date>
 export function recalculateForObserverUTC(latDeg: number, lonDeg: number, alt: number): EclipseData<Date>[] {
   // use UTC timezone and correct longitude for the the West positive convention used in the code
   setObserver(latDeg, -lonDeg, alt, 0);
-  const result = calculatefor(SE2024());
+  const result = calculatefor(SE2026());
   return convertEclipseDataList(result) as EclipseData<Date>[];
 }

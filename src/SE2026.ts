@@ -4,7 +4,7 @@
 //      Fred Espenak and Jean Meeus, NASA/TP-2006-214141, October 2006
 //
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export function SE2024(): number[] {
+export function SE2026(): number[] {
   return [
     // 2026  8 12
     2461265.241039,  18.0,  -4.0,   4.0,    75.4,    75.4,
