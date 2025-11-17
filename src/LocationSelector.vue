@@ -417,6 +417,7 @@ export default defineComponent({
               }
             })
             .catch((error) => {
+              console.log('Error loading GeoJSON:', url);
               console.error('Error:', error);
             }); 
         } else if (geo) {

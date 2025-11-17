@@ -1727,8 +1727,8 @@ type OptionalFieldsShallow<T> = {
 type QueryData = OptionalFieldsShallow<LocationDeg & { splash: boolean } & {awv: boolean}>;
 
 let queryData: QueryData = {};
-const UUID_KEY = "eclipse-mini-uuid" as const;
-const OPT_OUT_KEY = "eclipse-mini-optout" as const;
+const UUID_KEY = "eclipse-2026-mini-uuid" as const;
+const OPT_OUT_KEY = "eclipse-2026-mini-optout" as const;
 
 const RELEVANT_FEATURE_TYPES = ["postcode", "place", "region", "country"];
 const NA_COUNTRIES = ["United States", "Canada", "Mexico"];
@@ -1801,6 +1801,7 @@ function parseEclipsePath(csv: string) {
 }
 
 const eclipsePath = parseEclipsePath(eclipse);
+console.log("Eclipse path data loaded", eclipsePath);
 
 
 /** PARSE CLOUD COVERAGE DATA **/
@@ -2094,8 +2095,8 @@ export default defineComponent({
           style: {fillColor: '#333', weight: 1, opacity: 0, fillOpacity: 0.3, id:"upath"}
         },
         {
-          url: "https://raw.githubusercontent.com/johnarban/wwt_interactives/main/images/center_2026.json",
-          style: {color: '#ff0000', weight: 2, opacity: 1, fillOpacity: 0}
+          url: "https://raw.githubusercontent.com/johnarban/wwt_interactives/refs/heads/main/images/center_2026.json",
+          style: {color: '#ff0000', weight: 1, opacity: 1, fillOpacity: 0}
         },
         // { // individual places
         //   'geojson': _eclipsePathGeoJson as GeoJSON.FeatureCollection,
