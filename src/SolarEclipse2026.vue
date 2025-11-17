@@ -2387,8 +2387,10 @@ export default defineComponent({
 
       this.updateWWTLocation();
       
-      this.setClockSync(!queryData.splash); // set to true if queryData.splash == false
-      this.playing = !queryData.splash;
+      // this.setClockSync(!queryData.splash); // set to true if queryData.splash == false
+      // this.playing = !queryData.splash;
+      this.setClockSync(false);
+      this.playing = false;
 
       this.setClockRate(1); //
 
