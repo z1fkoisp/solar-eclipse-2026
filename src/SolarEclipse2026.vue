@@ -1325,7 +1325,6 @@
             <open-meteo-forecast 
               :location="locationDeg"
               :location-str="selectedLocationText"
-              :timezone="selectedTimezone"
               :time="(eclipsePrediction !== null && eclipseType != 'None') ? eclipsePrediction.maxTime[0] : null"
             />
           </v-card-text>
@@ -1385,12 +1384,13 @@
       </icon-button>
 
       <icon-button
+        v-if="withinForecastRange"
         v-model="showForecastSheet"
         md-icon="mdi-cloud-clock"
         :md-size="showNewMobileUI ? '16' : '24'"
         :color="accentColor"
         :focus-color="accentColor"
-        :tooltip-text="showForecastSheet ? null : 'April 8 Weather Forecast'"
+        :tooltip-text="showForecastSheet ? null : 'August 12 Weather Forecast'"
         :tooltip-location="'left'"
         :show-tooltip="!mobile"
         :box-shadow="false"
@@ -1465,6 +1465,7 @@
       
       <div id="eclipse-percent-chip">
         <v-btn
+          v-if="onDayOfEclipse"
           id="set-time-now-button"
           variant="outlined"
           rounded="xl"
@@ -1844,6 +1845,10 @@ const minTime = eclipseStartTime - extraTime;
 const maxTime = eclipseFinishTime + extraTime;
 console.log("Min time", new Date(minTime).toISOString());
 console.log("Max time", new Date(maxTime).toISOString());
+// if current time is between min and max time
+const onDayOfEclipse = (Date.now() >= minTime) && (Date.now() <= maxTime);
+// within 15 days of the start date
+const withinForecastRange = (Date.now() >= (eclipseStartTime - 1000 * 60 * 60 * 24 * 15)) && (Date.now() <= (eclipseStartTime + 1000 * 60 * 60 * 24 * 2));
 const SECONDS_PER_DAY = 60 * 60 * 24;
 const MILLISECONDS_PER_DAY = 1000 * SECONDS_PER_DAY;
 
@@ -2095,6 +2100,8 @@ export default defineComponent({
       forecastInfoStartTimestamp: null as number | null,
       weatherInfoOpen: false,
       responseOptOut: responseOptOut as boolean | null,
+      onDayOfEclipse,
+      withinForecastRange,
 
       showSplashScreen: queryData.splash ?? true, 
       backgroundImagesets: [] as BackgroundImageset[],
@@ -6206,6 +6213,7 @@ video, #info-video {
     height: var(--default-line-height);
     padding-inline: 0.8rem;
     padding-block: 0.8rem;
+    margin-left: auto;
   }
 
   .v-chip__content {
