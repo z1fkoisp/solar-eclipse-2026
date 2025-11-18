@@ -1,7 +1,7 @@
 <template>
   <div class="info-overlay-container" id="weather-forecast-container">   
     <h1>Forecast</h1>
-    <p v-if="time !== null" class="time-location"> for April 8 at <span class="omf-hl"> {{ localTimeString }}</span>, the hour of max eclipse at <span class="omf-hl">{{ locationStr }}</span></p>
+    <p v-if="time !== null" class="time-location"> for {{ time.toLocaleDateString(undefined, {month: 'long', day: 'numeric', timeZone: timezone}) }} at <span class="omf-hl"> {{ localTimeString }}</span>, the hour of max eclipse at <span class="omf-hl">{{ locationStr }}</span></p>
     <p v-else class="time-location"> Not provided for locations where the eclipse is not visible</p>
     
     <div v-if="time !== null" class="forecast-table-div">
@@ -12,6 +12,7 @@
       
       <div v-else>
         <!-- <v-icon size="35">{{ cloudIcon(forecastForHour.cloud_cover) }}</v-icon> -->
+         <div>{{  forecastForHour.time }}</div>
         <table class="forecast-table">
           <tr>
             <td>Cloud cover:</td>
@@ -53,9 +54,10 @@
               <span v-else>the <a href="https://www.ecmwf.int/en/forecasts/datasets/open-data" target="_blank">ECMWF</a> <a href="https://open-meteo.com/en/docs/ecmwf-api" target="_blank">3hr</a> forecast model. </span>
               <!-- create <a> tag to switch between gfs and ecmwf -->
         </p>
-        <p class="mt-2">
+        <!-- we don't want to use GFS for Europe -->
+        <!-- <p class="mt-2">
               Use the <a href="" @click.prevent="openMeteoApi = openMeteoApi === 'gfs' ? 'ecmwf' : 'gfs'">{{ openMeteoApi === 'gfs' ? 'ECMWF' : 'NOAA GFS' }}</a> forecast model instead.
-        </p>
+        </p> -->
     </div>
 
   </div>
@@ -95,7 +97,7 @@ interface Forecast {
   };
   latitude: number;
   longitude: number;
-  timzone: string;
+  timezone: string;
   timezone_abbreviation: string;
   
   utc_offset_seconds: number;
@@ -107,7 +109,8 @@ interface HourForecast {
   cloud_cover: number;
   temperature_2m: number;
   precipitation_probability: number | undefined;
-  precipitation: number | undefined
+  precipitation: number | undefined,
+  timezone: string;
 }
 
 type WeatherModel = 'gfs' | 'ecmwf';
@@ -134,12 +137,6 @@ export default defineComponent({
       required: false
     },
     
-    timezone: {
-      type: String,
-      default: 'america/new_york',
-      required: false,
-    },
-    
   },
   
   data() {
@@ -147,7 +144,8 @@ export default defineComponent({
       forecast: null as Forecast | null,
       madeCall: false,
       cfPref: 'F' as 'C' | 'F',
-      openMeteoApi: 'gfs' as WeatherModel,
+      openMeteoApi: 'ecmwf' as WeatherModel,
+      timezone: 'UTC' as string | null,
     };
   },
   
@@ -164,13 +162,13 @@ export default defineComponent({
       if (this.time === null || this.time === undefined) {
         return null;
       }
-      console.log(this.time);
+      console.log('forecast time', this.time.toLocaleString('en-US', {timeZone: 'UTC'}));
       return this.time.getUTCHours();
     },
 
     
     localTimeString() {
-      if (this.time === null || this.time === undefined) {
+      if (this.time === null || this.time === undefined || this.timezone === null) {
         return '';
       }
       // convert to 12 hour and add am/pm
@@ -183,18 +181,18 @@ export default defineComponent({
           latitude: this.location.latitudeDeg.toString(),
           longitude: this.location.longitudeDeg.toString(),
           hourly: ["cloud_cover", "temperature_2m", "precipitation_probability"].join(","),
-          start_date: "2024-04-08",
-          end_date: "2024-04-08",
-          timezone: "GMT",
+          start_date: this.time.toISOString().split('T')[0],
+          end_date: this.time.toISOString().split('T')[0],
+          timezone: "auto",
         };
       } else {
         return {
           latitude: this.location.latitudeDeg.toString(),
           longitude: this.location.longitudeDeg.toString(),
           hourly: ["cloud_cover", "temperature_2m", "precipitation"].join(","),
-          start_date: "2024-04-08",
-          end_date: "2024-04-08",
-          timezone: "GMT",
+          start_date: this.time.toISOString().split('T')[0],
+          end_date: this.time.toISOString().split('T')[0],
+          timezone: "auto",
         };
       }
     },
@@ -205,13 +203,14 @@ export default defineComponent({
       }
       // this.forecast.hourly.time format is 2024-04-04T16:00 and just want the hour
       const hour = this.forecast.hourly.time.map(time => +time.split('T')[1].split(':')[0]);
-      const hourIndex = hour.indexOf(+this.utcHour);
+      const hourIndex = hour.indexOf(+this.utcHour + this.forecast.utc_offset_seconds / 3600);
       if (hourIndex === -1) {
         return null;
       }
       
       return {
         time: this.forecast.hourly.time[hourIndex],
+        timezone: this.forecast.timezone,
         cloud_cover: this.forecast.hourly.cloud_cover[hourIndex],
         temperature_2m: this.forecast.hourly.temperature_2m[hourIndex],
         precipitation_probability: this.forecast.hourly.precipitation_probability ? this.forecast.hourly.precipitation_probability[hourIndex] : undefined,
@@ -262,11 +261,19 @@ export default defineComponent({
       }
       this.madeCall = true;
       const queryParams = new URLSearchParams(this.parameters);
-      const fullURL = `${this.openMeteoAPI}?${queryParams.toString()}&apikey=${process.env.VUE_APP_OPENMETEO_API_KEY}`;
+      let fullURL = `${this.openMeteoAPI}?${queryParams.toString()}`;
+      if (process.env.VUE_APP_OPENMETEO_API_KEY) {
+        fullURL += `&apikey=${process.env.VUE_APP_OPENMETEO_API_KEY}`;
+      } else {
+        // drop the customer-api part from the URL
+        fullURL = fullURL.replace('customer-api', 'api');
+      }
       return fetch(fullURL)
         .then(response => response.json())
         .then(data => {
           this.forecast = data as Forecast;
+          this.timezone = data.timezone;
+          console.log('Fetched forecast data:', data);
         })
         .catch(error => {
           console.error('Error:', error);
