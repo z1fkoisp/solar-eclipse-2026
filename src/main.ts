@@ -1,13 +1,12 @@
 import Vue, { createApp } from "vue";
 
-import { IconButton } from "@cosmicds/vue-toolkit";
+import { CreditLogos, IconButton } from "@cosmicds/vue-toolkit";
 import LocationSelector from "./LocationSelector.vue";
 import { FundingAcknowledgment } from "@cosmicds/vue-toolkit";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import SolarEclipse2026 from "./SolarEclipse2026.vue";
 import TransitionExpand from "./TransitionExpand.vue";
 import GifPlayPause from "./GifPlayPause.vue";
-import CreditLogos from "./CreditLogos.vue";
 import ImageLabel from "./ImageLabel.vue";
 import GeolocationButton from "./GeolocationButton.vue";
 import HoverTooltip from "./HoverTooltip.vue";
@@ -18,6 +17,8 @@ import PlaybackControl from "./PlaybackControl.vue";
 import ColorBar from "./ColorBar.vue";
 import EclipseTimer from "./EclipseTimer.vue";
 import LocationSearch from "./LocationSearch.vue";
+import ArrowSVG from "./ArrowSVG.vue";
+import OpenMeteoForecast from "./OpenMeteoForecast.vue";
 
 import "./polyfills";
 
@@ -159,5 +160,7 @@ createApp(SolarEclipse2026, {
   .component('color-bar', ColorBar)
   .component('eclipse-timer', EclipseTimer)
   .component('location-search', LocationSearch)
+  .component('arrow-svg', ArrowSVG)
+  .component('open-meteo-forecast', OpenMeteoForecast)
   // Mount
   .mount("#app");
