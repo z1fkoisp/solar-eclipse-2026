@@ -1835,15 +1835,16 @@ export interface MapBoxContextItem {
 
 // number of milliseconds since January 1, 1970, 00:00:00 UTC
 // month is indexed from 0..?!
-// https://www.timeanddate.com/eclipse/solar/2023-october-14#eclipse-table
-const eclipseStartTime = Date.UTC(2026, 7, 12, 15, 34, 15); // partial eclipse starts at 15:34 UTC
-const eclipseFinishTime = Date.UTC(2026, 7, 13, 19, 57, 57); // partial eclipse ends at  19:57 UTC
+// instead of eclipse start/end times this shouldj ust be 24 hours
+const eclipseStartTime = Date.UTC(2026, 7, 12, 4, 1); // partial eclipse starts at 15:40 UTC
+const eclipseFinishTime = Date.UTC(2026, 7, 13, 3, 59); // partial eclipse ends at  20:55 UTC
 console.log("Eclipse start time", new Date(eclipseStartTime));
 console.log("Eclipse finish time", new Date(eclipseFinishTime));
 const extraTime = 1000 * 60 * 60 * 0; // add 2 hours to the end time to make sure we get the full eclipse
 const minTime = eclipseStartTime - extraTime;
 const maxTime = eclipseFinishTime + extraTime;
-console.log("Min time", new Date(minTime).toISOString());
+console.log("Min time",
+ new Date(minTime).toISOString());
 console.log("Max time", new Date(maxTime).toISOString());
 // if current time is between min and max time
 const onDayOfEclipse = (Date.now() >= minTime) && (Date.now() <= maxTime);
