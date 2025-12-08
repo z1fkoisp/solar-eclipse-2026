@@ -1843,8 +1843,7 @@ console.log("Eclipse finish time", new Date(eclipseFinishTime));
 const extraTime = 1000 * 60 * 60 * 0; // add 2 hours to the end time to make sure we get the full eclipse
 const minTime = eclipseStartTime - extraTime;
 const maxTime = eclipseFinishTime + extraTime;
-console.log("Min time",
- new Date(minTime).toISOString());
+console.log("Min time",new Date(minTime).toISOString());
 console.log("Max time", new Date(maxTime).toISOString());
 // if current time is between min and max time
 const onDayOfEclipse = (Date.now() >= minTime) && (Date.now() <= maxTime);
