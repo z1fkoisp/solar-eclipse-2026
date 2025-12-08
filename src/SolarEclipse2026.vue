@@ -1836,8 +1836,8 @@ export interface MapBoxContextItem {
 // number of milliseconds since January 1, 1970, 00:00:00 UTC
 // month is indexed from 0..?!
 // https://www.timeanddate.com/eclipse/solar/2023-october-14#eclipse-table
-const eclipseStartTime = Date.UTC(2026, 7, 12, 4, 1); // partial eclipse starts at 15:40 UTC
-const eclipseFinishTime = Date.UTC(2026, 7, 13, 3, 59); // partial eclipse ends at  20:55 UTC
+const eclipseStartTime = Date.UTC(2026, 7, 12, 15, 34, 15); // partial eclipse starts at 15:34 UTC
+const eclipseFinishTime = Date.UTC(2026, 7, 13, 19, 57, 57); // partial eclipse ends at  19:57 UTC
 console.log("Eclipse start time", new Date(eclipseStartTime));
 console.log("Eclipse finish time", new Date(eclipseFinishTime));
 const extraTime = 1000 * 60 * 60 * 0; // add 2 hours to the end time to make sure we get the full eclipse
@@ -2031,7 +2031,7 @@ export default defineComponent({
     },
   },
   data() {
-    const totalEclipseTimeUTC = new Date("2026-08-12T20:30:59Z");
+    const totalEclipseTimeUTC = new Date("2026-08-12T18:30:59Z");
 
     const sunPlace = new Place();
     sunPlace.set_names(["Sun"]);
@@ -2143,7 +2143,7 @@ export default defineComponent({
       pointerStartPosition: null as { x: number; y: number } | null,  
 
       // "Greatest Eclipse"
-      selectedTime:  totalEclipseTimeUTC.getTime(),
+      selectedTime:  totalEclipseTimeUTC.getTime() - 60*60*1000*1.5,
       selectedTimezone: "Europe/Madrid",
       location,
       selectedLocationText: "Antiguita, Spain",
