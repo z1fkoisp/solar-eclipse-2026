@@ -2,7 +2,7 @@ import Vue, { createApp } from "vue";
 
 import { CreditLogos, IconButton } from "@cosmicds/vue-toolkit";
 import LocationSelector from "./LocationSelector.vue";
-import { FundingAcknowledgment } from "@cosmicds/vue-toolkit";
+import { FundingAcknowledgment, UserExperience } from "@cosmicds/vue-toolkit";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import SolarEclipse2026 from "./SolarEclipse2026.vue";
 import TransitionExpand from "./TransitionExpand.vue";
@@ -162,5 +162,6 @@ createApp(SolarEclipse2026, {
   .component('location-search', LocationSearch)
   .component('arrow-svg', ArrowSVG)
   .component('open-meteo-forecast', OpenMeteoForecast)
+  .component('user-experience', UserExperience)
   // Mount
   .mount("#app");
