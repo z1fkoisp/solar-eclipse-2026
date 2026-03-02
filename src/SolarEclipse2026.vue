@@ -2149,6 +2149,7 @@ export default defineComponent({
         "Does this spark your curiosity?" :
         "Are you learning something new?",
       questionTimeout: null as ReturnType<typeof setTimeout> | null,
+      canTrackStory: false,
       infoTimeMs: 0,
       userGuideTimeMs: 0,
       weatherTimeMs: 0,
@@ -3454,39 +3455,45 @@ export default defineComponent({
         return;
       }
       let userExists = false;
-      const response = await fetch(`${API_BASE_URL}/solar-eclipse-2026/data/${this.uuid}`, {
-        method: "GET",
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        headers: { "Authorization": process.env.VUE_APP_CDS_API_KEY ?? "" }
-      });
-      const content = await response.json();
-      userExists = response.status === 200 && content.response?.user_uuid != undefined;
-      
-      if (!userExists) {
-        fetch(`${API_BASE_URL}/solar-eclipse-2026/data`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            "Authorization": process.env.VUE_APP_CDS_API_KEY ?? ""
-          },
-          body: JSON.stringify({
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            user_uuid: this.uuid, 
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            user_selected_locations: toRaw(this.userSelectedLocations),
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            cloud_cover_selected_locations: toRaw(this.cloudCoverSelectedLocations),
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            text_search_selected_locations: toRaw(this.textSearchSelectedLocations),
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            info_time_ms: 0, app_time_ms: 0, user_guide_time_ms: 0, forecast_info_time_ms: 0,
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            advanced_weather_selected_locations_count: this.advancedWeatherSelectedCount,
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            cloud_cover_selected_locations_count: this.cloudCoverSelectedCount,
-          })
+      try {
+        const response = await fetch(`${API_BASE_URL}/solar-eclipse-2026/data/${this.uuid}`, {
+          method: "GET",
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          headers: { "Authorization": process.env.VUE_APP_CDS_API_KEY ?? "" }
         });
+        const content = await response.json();
+        userExists = response.status === 200 && content.response?.user_uuid != undefined;
+        this.canTrackStory = true;
+      
+      
+        if (!userExists) {
+          fetch(`${API_BASE_URL}/solar-eclipse-2026/data`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              "Authorization": process.env.VUE_APP_CDS_API_KEY ?? ""
+            },
+            body: JSON.stringify({
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              user_uuid: this.uuid, 
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              user_selected_locations: toRaw(this.userSelectedLocations),
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              cloud_cover_selected_locations: toRaw(this.cloudCoverSelectedLocations),
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              text_search_selected_locations: toRaw(this.textSearchSelectedLocations),
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              info_time_ms: 0, app_time_ms: 0, user_guide_time_ms: 0, forecast_info_time_ms: 0,
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              advanced_weather_selected_locations_count: this.advancedWeatherSelectedCount,
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              cloud_cover_selected_locations_count: this.cloudCoverSelectedCount,
+            })
+          });
+        }
+      } catch (e) {
+        console.log(e);
       }
       
       if (this.ratingOptOut) {
@@ -3494,8 +3501,9 @@ export default defineComponent({
       }
 
       let gaveRating = false;
-
-      if (userExists) {
+      
+      try {
+        // don't care if the user exists, just if the rating does
         const ratingResponse = await fetch(`${this.storyRatingUrl}/${this.uuid}`, {
           method: "GET",
           // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -3504,12 +3512,15 @@ export default defineComponent({
         
         const ratingContent = await ratingResponse.json();
         gaveRating = ratingResponse.status === 200 && ratingContent.ratings?.length > 0;
+      } catch (e) {
+        console.log(e);
       }
+
 
       if (!gaveRating) {
         this.questionTimeout = setTimeout(() => {
           this.showRating = true;
-        }, 90_000);
+        }, 10_000);
       }
     },
 
@@ -3537,6 +3548,9 @@ export default defineComponent({
 
     sendUpdateData() {
       if (this.responseOptOut) {
+        return;
+      }
+      if (!this.canTrackStory) {
         return;
       }
       const now = Date.now();
@@ -6630,7 +6644,7 @@ a {
   border-radius: 10px !important;
   background-color: #222222 !important;
   opacity: 0.95 !important;
-  z-index: 20000;
+  z-index: 20000 !important;
 
   .rating-title {
     color: #EFEFEF;
