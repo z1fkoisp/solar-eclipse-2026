@@ -24,8 +24,10 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "es6"
-    ]
+      "es6",
+      "ES2016.Array.Include"
+    ],
+    "types": ["node"]
   },
   "include": [
     "plugins/*.ts",
