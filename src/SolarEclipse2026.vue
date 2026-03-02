@@ -4168,7 +4168,7 @@ export default defineComponent({
       if (this.showNewMobileUI) {
         setTimeout(() => {
           this.searchOpen = false;
-        }, 3_000);
+        }, 90_000);
       }
     },
     
