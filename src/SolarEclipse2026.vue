@@ -3520,7 +3520,7 @@ export default defineComponent({
       if (!gaveRating) {
         this.questionTimeout = setTimeout(() => {
           this.showRating = true;
-        }, 10_000);
+        }, 90_000);
       }
     },
 
@@ -4168,7 +4168,7 @@ export default defineComponent({
       if (this.showNewMobileUI) {
         setTimeout(() => {
           this.searchOpen = false;
-        }, 90_000);
+        },3_000);
       }
     },
     
